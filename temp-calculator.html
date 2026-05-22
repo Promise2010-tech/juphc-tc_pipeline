@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tax Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 350px; }
+        h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #393939; }
+        input { width: 100%; padding: 10px; border: 1px solid #8d8d8d; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 12px; background-color: #0f62fe; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        button:hover { background-color: #0353e9; }
+        .result { margin-top: 20px; padding: 15px; background-color: #edf5ff; border-left: 4px solid #0f62fe; border-radius: 4px; font-weight: bold; color: #002d9c; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>IBM Cloud Tax Calculator</h2>
+        <div class="form-group">
+            <label>Annual Income (ZAR / $)</label>
+            <input type="number" id="income" value="450000" placeholder="Enter annual income">
+        </div>
+        <button onclick="calculateTax()">Calculate Net Tax</button>
+        <div id="resultBox" class="result">Total Estimated Tax: R81,000.00</div>
+    </div>
+    <script>
+        function calculateTax() {
+            var income = document.getElementById('income').value;
+            var tax = income * 0.18;
+            var resultBox = document.getElementById('resultBox');
+            resultBox.innerText = "Total Estimated Tax: " + tax.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            resultBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
