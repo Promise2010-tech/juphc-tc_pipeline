@@ -1,22 +1,19 @@
 apiVersion: tekton.dev/v1beta1
-kind: Task
+kind: PipelineRun
 metadata:
-  name: build-and-push-image
+  name: tax-calculator-pipeline-run
 spec:
-  workspaces:
-    - name: source
+  pipelineRef:
+    name: tax-calculator-pipeline
   params:
     - name: image-tag
-      type: string
-      description: The target registry destination URL for the container image
-  steps:
-    - name: build-image
-      image: json-container-builder-placeholder
-      workingDir: $(workspaces.source.path)
-      script: |
-        echo "Simulating image build from local Dockerfile layout..."
-    - name: push-to-registry
-      image: registry-uploader-placeholder
-      script: |
-        echo "Pushing built image layer directly to $(params.image-tag)..."
-        echo "Image successfully verified and live on cloud environment."
+      value: "us.icr.io/tax-calculator-namespace/tax-calculator:latest"
+  workspaces:
+    - name: pipeline-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi

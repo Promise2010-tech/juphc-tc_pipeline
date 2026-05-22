@@ -1,25 +1,30 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: express-book-pipeline
+  name: tax-calculator-pipeline
 spec:
   workspaces:
-    - name: shared-workspace
+    - name: pipeline-workspace
   tasks:
-    - name: test-stage
+    - name: npminstall
       taskRef:
-        name: run-jasmine-tests
+        name: npm-install-task
       workspaces:
         - name: source
-          workspace: shared-workspace
-    - name: build-and-deploy-stage
+          workspace: pipeline-workspace
+    - name: tests
       runAfter:
-        - test-stage
+        - npminstall
+      taskRef:
+        name: jasmine-test-task
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+    - name: build
+      runAfter:
+        - tests
       taskRef:
         name: build-and-push-image
       workspaces:
         - name: source
-          workspace: shared-workspace
-      params:
-        - name: image-tag
-          value: "us.icr.io/book-review-namespace/expressbookreview:latest"
+          workspace: pipeline-workspace
